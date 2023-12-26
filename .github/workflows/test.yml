@@ -1,0 +1,26 @@
+name: Test asdf plugin
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: asdf_plugin_test
+        uses: asdf-vm/actions/plugin-test@v1
+        with:
+          command: "codespell -v"
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run ShellCheck
+        run: shellcheck bin/*
